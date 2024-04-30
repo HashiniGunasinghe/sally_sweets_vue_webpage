@@ -1,0 +1,73 @@
+<template>
+    <!-- <div class="mx-auto mb-4"> 
+  
+      <form @submit.prevent="subscribe" class="flex items-center">
+        <input v-model="email" type="email" placeholder="Enter your email" class="p-2 rounded-l-lg w-full text-black">
+        <button type="submit" class="bg-black text-white p-2 rounded-r-lg">Subscribe</button>
+      </form>
+    
+    </div> -->
+    <div class="signUpCard bg-pink-500 py-12 px-10 rounded-lg shadow-lg text-black">
+<h2 class="text-3xl font-bold text-center mb-8">Subscribe Us!!!!</h2>
+<form @submit.prevent="subscribe">
+  
+  <input 
+    v-model="email"
+    type="email" 
+    class="border p-2 w-full"
+    placeholder="Enter your email">
+
+  <button
+    type="submit"
+    class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"    
+  >
+    Subscribe
+  </button>
+
+  <p v-if="subscribed" class="text-red-600 mt-4">
+    Subscribed successfully!
+  </p>
+
+</form>
+
+
+</div>
+  </template>
+  
+  
+  
+  
+  
+  <script>
+  import axios from 'axios';
+  
+  export default {
+  data() {
+    return {
+      email: '',
+    };
+  },
+  created() {
+    // JSON server running on http://localhost:3000
+    this.apiBaseURL = 'http://localhost:3000/emails';
+    this.api = axios.create({
+      baseURL: this.apiBaseURL,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  },
+  methods: {
+    subscribe() {
+      this.api.post('/', { email: this.email })
+        .then(() => {
+          // Reset the email input after successful subscription
+          this.email = '';
+          alert('Subscription successful!');
+        })
+        .catch(error => {
+          console.error('Error subscribing:', error);
+          alert('Subscription failed. Please try again later.');
+        });
+    },
+  },
+  };
+  </script>
